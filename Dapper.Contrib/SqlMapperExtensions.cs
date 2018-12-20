@@ -822,13 +822,13 @@ public partial class SqlServerAdapter : ISqlAdapter
     /// <returns>The Id of the row created.</returns>
     public int Insert(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string tableName, string columnList, string parameterList, IEnumerable<PropertyInfo> keyProperties, object entityToInsert)
     {
-        var cmd = $"insert into {tableName} ({columnList}) values ({parameterList});select SCOPE_IDENTITY() id";
+        var cmd = $"insert into {tableName} ({columnList}) values ({parameterList});select SCOPE_IDENTITY() ID";
         var multi = connection.QueryMultiple(cmd, entityToInsert, transaction, commandTimeout);
 
         var first = multi.Read().FirstOrDefault();
-        if (first == null || first.id == null) return 0;
+        if (first == null || first.ID == null) return 0;
 
-        var id = (int)first.id;
+        var id = (int)first.ID;
         var propertyInfos = keyProperties as PropertyInfo[] ?? keyProperties.ToArray();
         if (propertyInfos.Length == 0) return id;
 
@@ -880,10 +880,10 @@ public partial class SqlCeServerAdapter : ISqlAdapter
     {
         var cmd = $"insert into {tableName} ({columnList}) values ({parameterList})";
         connection.Execute(cmd, entityToInsert, transaction, commandTimeout);
-        var r = connection.Query("select @@IDENTITY id", transaction: transaction, commandTimeout: commandTimeout).ToList();
+        var r = connection.Query("select @@IDENTITY ID", transaction: transaction, commandTimeout: commandTimeout).ToList();
 
-        if (r[0].id == null) return 0;
-        var id = (int)r[0].id;
+        if (r[0].ID == null) return 0;
+        var id = (int)r[0].ID;
 
         var propertyInfos = keyProperties as PropertyInfo[] ?? keyProperties.ToArray();
         if (propertyInfos.Length == 0) return id;
@@ -936,9 +936,9 @@ public partial class MySqlAdapter : ISqlAdapter
     {
         var cmd = $"insert into {tableName} ({columnList}) values ({parameterList})";
         connection.Execute(cmd, entityToInsert, transaction, commandTimeout);
-        var r = connection.Query("Select LAST_INSERT_ID() id", transaction: transaction, commandTimeout: commandTimeout);
+        var r = connection.Query("Select LAST_INSERT_ID() ID", transaction: transaction, commandTimeout: commandTimeout);
 
-        var id = r.First().id;
+        var id = r.First().ID;
         if (id == null) return 0;
         var propertyInfos = keyProperties as PropertyInfo[] ?? keyProperties.ToArray();
         if (propertyInfos.Length == 0) return Convert.ToInt32(id);
@@ -1065,10 +1065,10 @@ public partial class SQLiteAdapter : ISqlAdapter
     /// <returns>The Id of the row created.</returns>
     public int Insert(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string tableName, string columnList, string parameterList, IEnumerable<PropertyInfo> keyProperties, object entityToInsert)
     {
-        var cmd = $"INSERT INTO {tableName} ({columnList}) VALUES ({parameterList}); SELECT last_insert_rowid() id";
+        var cmd = $"INSERT INTO {tableName} ({columnList}) VALUES ({parameterList}); SELECT last_insert_rowid() ID";
         var multi = connection.QueryMultiple(cmd, entityToInsert, transaction, commandTimeout);
 
-        var id = (int)multi.Read().First().id;
+        var id = (int)multi.Read().First().ID;
         var propertyInfos = keyProperties as PropertyInfo[] ?? keyProperties.ToArray();
         if (propertyInfos.Length == 0) return id;
 

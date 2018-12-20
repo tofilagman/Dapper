@@ -105,8 +105,8 @@ namespace Dapper.Tests
                 Assert.Equal(2, users.Count);
                 Assert.Equal(3, posts.Count);
 
-                Assert.Equal(2, (int)users[0].Id);
-                Assert.Equal(3, (int)posts[0].Id);
+                Assert.Equal(2, (int)users[0]["Id"]);
+                Assert.Equal(3, (int)posts[0]["Id"]);
             }
             finally
             {

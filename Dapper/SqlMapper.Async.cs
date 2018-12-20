@@ -21,54 +21,54 @@ namespace Dapper
         /// <param name="transaction">The transaction to use, if any.</param>
         /// <param name="commandTimeout">The command timeout (in seconds).</param>
         /// <param name="commandType">The type of command to execute.</param>
-        /// <remarks>Note: each row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
-        public static Task<IEnumerable<dynamic>> QueryAsync(this IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null) =>
-            QueryAsync<dynamic>(cnn, typeof(DapperRow), new CommandDefinition(sql, param, transaction, commandTimeout, commandType, CommandFlags.Buffered, default(CancellationToken)));
+        /// <remarks>Note: each row can be accessed via "DapperRow", or by casting to an IDictionary&lt;string,object&gt;</remarks>
+        public static Task<IEnumerable<DapperRow>> QueryAsync(this IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null) =>
+            QueryAsync<DapperRow>(cnn, typeof(DapperRow), new CommandDefinition(sql, param, transaction, commandTimeout, commandType, CommandFlags.Buffered, default(CancellationToken)));
 
         /// <summary>
         /// Execute a query asynchronously using .NET 4.5 Task.
         /// </summary>
         /// <param name="cnn">The connection to query on.</param>
         /// <param name="command">The command used to query on this connection.</param>
-        /// <remarks>Note: each row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
-        public static Task<IEnumerable<dynamic>> QueryAsync(this IDbConnection cnn, CommandDefinition command) =>
-            QueryAsync<dynamic>(cnn, typeof(DapperRow), command);
+        /// <remarks>Note: each row can be accessed via "DapperRow", or by casting to an IDictionary&lt;string,object&gt;</remarks>
+        public static Task<IEnumerable<DapperRow>> QueryAsync(this IDbConnection cnn, CommandDefinition command) =>
+            QueryAsync<DapperRow>(cnn, typeof(DapperRow), command);
 
         /// <summary>
         /// Execute a single-row query asynchronously using .NET 4.5 Task.
         /// </summary>
         /// <param name="cnn">The connection to query on.</param>
         /// <param name="command">The command used to query on this connection.</param>
-        /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
-        public static Task<dynamic> QueryFirstAsync(this IDbConnection cnn, CommandDefinition command) =>
-            QueryRowAsync<dynamic>(cnn, Row.First, typeof(DapperRow), command);
+        /// <remarks>Note: the row can be accessed via "DapperRow", or by casting to an IDictionary&lt;string,object&gt;</remarks>
+        public static Task<DapperRow> QueryFirstAsync(this IDbConnection cnn, CommandDefinition command) =>
+            QueryRowAsync<DapperRow>(cnn, Row.First, typeof(DapperRow), command);
 
         /// <summary>
         /// Execute a single-row query asynchronously using .NET 4.5 Task.
         /// </summary>
         /// <param name="cnn">The connection to query on.</param>
         /// <param name="command">The command used to query on this connection.</param>
-        /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
-        public static Task<dynamic> QueryFirstOrDefaultAsync(this IDbConnection cnn, CommandDefinition command) =>
-            QueryRowAsync<dynamic>(cnn, Row.FirstOrDefault, typeof(DapperRow), command);
+        /// <remarks>Note: the row can be accessed via "DapperRow", or by casting to an IDictionary&lt;string,object&gt;</remarks>
+        public static Task<DapperRow> QueryFirstOrDefaultAsync(this IDbConnection cnn, CommandDefinition command) =>
+            QueryRowAsync<DapperRow>(cnn, Row.FirstOrDefault, typeof(DapperRow), command);
 
         /// <summary>
         /// Execute a single-row query asynchronously using .NET 4.5 Task.
         /// </summary>
         /// <param name="cnn">The connection to query on.</param>
         /// <param name="command">The command used to query on this connection.</param>
-        /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
-        public static Task<dynamic> QuerySingleAsync(this IDbConnection cnn, CommandDefinition command) =>
-            QueryRowAsync<dynamic>(cnn, Row.Single, typeof(DapperRow), command);
+        /// <remarks>Note: the row can be accessed via "DapperRow", or by casting to an IDictionary&lt;string,object&gt;</remarks>
+        public static Task<DapperRow> QuerySingleAsync(this IDbConnection cnn, CommandDefinition command) =>
+            QueryRowAsync<DapperRow>(cnn, Row.Single, typeof(DapperRow), command);
 
         /// <summary>
         /// Execute a single-row query asynchronously using .NET 4.5 Task.
         /// </summary>
         /// <param name="cnn">The connection to query on.</param>
         /// <param name="command">The command used to query on this connection.</param>
-        /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
-        public static Task<dynamic> QuerySingleOrDefaultAsync(this IDbConnection cnn, CommandDefinition command) =>
-            QueryRowAsync<dynamic>(cnn, Row.SingleOrDefault, typeof(DapperRow), command);
+        /// <remarks>Note: the row can be accessed via "DapperRow", or by casting to an IDictionary&lt;string,object&gt;</remarks>
+        public static Task<DapperRow> QuerySingleOrDefaultAsync(this IDbConnection cnn, CommandDefinition command) =>
+            QueryRowAsync<DapperRow>(cnn, Row.SingleOrDefault, typeof(DapperRow), command);
 
         /// <summary>
         /// Execute a query asynchronously using .NET 4.5 Task.
@@ -148,8 +148,8 @@ namespace Dapper
         /// <param name="transaction">The transaction to use, if any.</param>
         /// <param name="commandTimeout">The command timeout (in seconds).</param>
         /// <param name="commandType">The type of command to execute.</param>
-        public static Task<dynamic> QueryFirstAsync(this IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null) =>
-            QueryRowAsync<dynamic>(cnn, Row.First, typeof(DapperRow), new CommandDefinition(sql, param, transaction, commandTimeout, commandType, CommandFlags.None, default(CancellationToken)));
+        public static Task<DapperRow> QueryFirstAsync(this IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null) =>
+            QueryRowAsync<DapperRow>(cnn, Row.First, typeof(DapperRow), new CommandDefinition(sql, param, transaction, commandTimeout, commandType, CommandFlags.None, default(CancellationToken)));
 
         /// <summary>
         /// Execute a single-row query asynchronously using .NET 4.5 Task.
@@ -160,8 +160,8 @@ namespace Dapper
         /// <param name="transaction">The transaction to use, if any.</param>
         /// <param name="commandTimeout">The command timeout (in seconds).</param>
         /// <param name="commandType">The type of command to execute.</param>
-        public static Task<dynamic> QueryFirstOrDefaultAsync(this IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null) =>
-            QueryRowAsync<dynamic>(cnn, Row.FirstOrDefault, typeof(DapperRow), new CommandDefinition(sql, param, transaction, commandTimeout, commandType, CommandFlags.None, default(CancellationToken)));
+        public static Task<DapperRow> QueryFirstOrDefaultAsync(this IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null) =>
+            QueryRowAsync<DapperRow>(cnn, Row.FirstOrDefault, typeof(DapperRow), new CommandDefinition(sql, param, transaction, commandTimeout, commandType, CommandFlags.None, default(CancellationToken)));
 
         /// <summary>
         /// Execute a single-row query asynchronously using .NET 4.5 Task.
@@ -172,8 +172,8 @@ namespace Dapper
         /// <param name="transaction">The transaction to use, if any.</param>
         /// <param name="commandTimeout">The command timeout (in seconds).</param>
         /// <param name="commandType">The type of command to execute.</param>
-        public static Task<dynamic> QuerySingleAsync(this IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null) =>
-            QueryRowAsync<dynamic>(cnn, Row.Single, typeof(DapperRow), new CommandDefinition(sql, param, transaction, commandTimeout, commandType, CommandFlags.None, default(CancellationToken)));
+        public static Task<DapperRow> QuerySingleAsync(this IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null) =>
+            QueryRowAsync<DapperRow>(cnn, Row.Single, typeof(DapperRow), new CommandDefinition(sql, param, transaction, commandTimeout, commandType, CommandFlags.None, default(CancellationToken)));
 
         /// <summary>
         /// Execute a single-row query asynchronously using .NET 4.5 Task.
@@ -184,8 +184,8 @@ namespace Dapper
         /// <param name="transaction">The transaction to use, if any.</param>
         /// <param name="commandTimeout">The command timeout (in seconds).</param>
         /// <param name="commandType">The type of command to execute.</param>
-        public static Task<dynamic> QuerySingleOrDefaultAsync(this IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null) =>
-            QueryRowAsync<dynamic>(cnn, Row.SingleOrDefault, typeof(DapperRow), new CommandDefinition(sql, param, transaction, commandTimeout, commandType, CommandFlags.None, default(CancellationToken)));
+        public static Task<DapperRow> QuerySingleOrDefaultAsync(this IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null) =>
+            QueryRowAsync<DapperRow>(cnn, Row.SingleOrDefault, typeof(DapperRow), new CommandDefinition(sql, param, transaction, commandTimeout, commandType, CommandFlags.None, default(CancellationToken)));
 
         /// <summary>
         /// Execute a query asynchronously using .NET 4.5 Task.
@@ -1049,7 +1049,7 @@ namespace Dapper
                 cmd = command.TrySetupAsyncCommand(cnn, info.ParamReader);
                 reader = await ExecuteReaderWithFlagsFallbackAsync(cmd, wasClosed, CommandBehavior.SequentialAccess, command.CancellationToken).ConfigureAwait(false);
 
-                var result = new GridReader(cmd, reader, identity, command.Parameters as DynamicParameters, command.AddToCache, command.CancellationToken);
+                var result = new GridReader(cmd, reader, identity, command.Parameters as DynamicParameters, command.AddToCache, command.CancellationToken); //as DapperRowParameters
                 wasClosed = false; // *if* the connection was closed and we got this far, then we now have a reader
                 // with the CloseConnection flag, so the reader will deal with the connection; we
                 // still need something in the "finally" to ensure that broken SQL still results

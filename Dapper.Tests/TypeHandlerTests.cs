@@ -621,7 +621,7 @@ namespace Dapper.Tests
             Assert.Equal(1, a);
             Assert.Equal("2", b);
 
-            row = connection.Query<dynamic>("select 3 as [a], '4' as [b]").Single();
+            row = connection.Query<SqlMapper.DapperRow>("select 3 as [a], '4' as [b]").Single();
             a = row.a;
             b = row.b;
             Assert.Equal(3, a);

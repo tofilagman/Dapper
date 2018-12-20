@@ -1,4 +1,4 @@
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using Susanoo;
 using Susanoo.Processing;
 using System.Data;
@@ -15,7 +15,7 @@ namespace Dapper.Tests.Performance
                     .Realize();
         private static readonly ISingleResultSetCommandProcessor<dynamic, dynamic> _cmdDynamic =
                 CommandManager.Instance.DefineCommand("SELECT * FROM Posts WHERE Id = @Id", CommandType.Text)
-                    .DefineResults<dynamic>()
+                    .DefineResults<DapperRow>()
                     .Realize();
 
         [GlobalSetup]
@@ -40,7 +40,7 @@ namespace Dapper.Tests.Performance
         {
             Step();
             return CommandManager.Instance.DefineCommand("SELECT * FROM Posts WHERE Id = @Id", CommandType.Text)
-                    .DefineResults<dynamic>()
+                    .DefineResults<DapperRow>()
                     .Realize()
                     .Execute(_db, new { Id = i }).First();
         }

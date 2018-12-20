@@ -58,7 +58,7 @@ Execute a query and map it to a list of dynamic objects
 -------------------------------------------------------
 
 ```csharp
-public static IEnumerable<dynamic> Query (this IDbConnection cnn, string sql, object param = null, SqlTransaction transaction = null, bool buffered = true)
+public static IEnumerable<DapperRow> Query (this IDbConnection cnn, string sql, object param = null, SqlTransaction transaction = null, bool buffered = true)
 ```
 This method will execute SQL and return a dynamic list.
 

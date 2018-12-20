@@ -5,13 +5,20 @@ namespace Dapper
 {
     public static partial class SqlMapper
     {
-        private sealed class DapperTable
+        /// <summary>
+        /// 
+        /// </summary>
+        public sealed class DapperTable
         {
             private string[] fieldNames;
             private readonly Dictionary<string, int> fieldNameLookup;
 
             internal string[] FieldNames => fieldNames;
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="fieldNames"></param>
             public DapperTable(string[] fieldNames)
             {
                 this.fieldNames = fieldNames ?? throw new ArgumentNullException(nameof(fieldNames));
@@ -43,6 +50,9 @@ namespace Dapper
 
             internal bool FieldExists(string key) => key != null && fieldNameLookup.ContainsKey(key);
 
+            /// <summary>
+            /// 
+            /// </summary>
             public int FieldCount => fieldNames.Length;
         }
     }

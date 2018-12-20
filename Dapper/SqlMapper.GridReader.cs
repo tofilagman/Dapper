@@ -26,35 +26,35 @@ namespace Dapper
             }
 
             /// <summary>
-            /// Read the next grid of results, returned as a dynamic object.
+            /// Read the next grid of results, returned as a DapperRow object.
             /// </summary>
             /// <param name="buffered">Whether the results should be buffered in memory.</param>
-            /// <remarks>Note: each row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
-            public IEnumerable<dynamic> Read(bool buffered = true) => ReadImpl<dynamic>(typeof(DapperRow), buffered);
+            /// <remarks>Note: each row can be accessed via "DapperRow", or by casting to an IDictionary&lt;string,object&gt;</remarks>
+            public IEnumerable<DapperRow> Read(bool buffered = true) => ReadImpl<DapperRow>(typeof(DapperRow), buffered);
 
             /// <summary>
-            /// Read an individual row of the next grid of results, returned as a dynamic object.
+            /// Read an individual row of the next grid of results, returned as a DapperRow object.
             /// </summary>
-            /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
-            public dynamic ReadFirst() => ReadRow<dynamic>(typeof(DapperRow), Row.First);
+            /// <remarks>Note: the row can be accessed via "DapperRow", or by casting to an IDictionary&lt;string,object&gt;</remarks>
+            public DapperRow ReadFirst() => ReadRow<DapperRow>(typeof(DapperRow), Row.First);
 
             /// <summary>
-            /// Read an individual row of the next grid of results, returned as a dynamic object.
+            /// Read an individual row of the next grid of results, returned as a DapperRow object.
             /// </summary>
-            /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
-            public dynamic ReadFirstOrDefault() => ReadRow<dynamic>(typeof(DapperRow), Row.FirstOrDefault);
+            /// <remarks>Note: the row can be accessed via "DapperRow", or by casting to an IDictionary&lt;string,object&gt;</remarks>
+            public DapperRow ReadFirstOrDefault() => ReadRow<DapperRow>(typeof(DapperRow), Row.FirstOrDefault);
 
             /// <summary>
-            /// Read an individual row of the next grid of results, returned as a dynamic object.
+            /// Read an individual row of the next grid of results, returned as a DapperRow object.
             /// </summary>
-            /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
-            public dynamic ReadSingle() => ReadRow<dynamic>(typeof(DapperRow), Row.Single);
+            /// <remarks>Note: the row can be accessed via "DapperRow", or by casting to an IDictionary&lt;string,object&gt;</remarks>
+            public DapperRow ReadSingle() => ReadRow<DapperRow>(typeof(DapperRow), Row.Single);
 
             /// <summary>
-            /// Read an individual row of the next grid of results, returned as a dynamic object.
+            /// Read an individual row of the next grid of results, returned as a DapperRow object.
             /// </summary>
-            /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
-            public dynamic ReadSingleOrDefault() => ReadRow<dynamic>(typeof(DapperRow), Row.SingleOrDefault);
+            /// <remarks>Note: the row can be accessed via "DapperRow", or by casting to an IDictionary&lt;string,object&gt;</remarks>
+            public DapperRow ReadSingleOrDefault() => ReadRow<DapperRow>(typeof(DapperRow), Row.SingleOrDefault);
 
             /// <summary>
             /// Read the next grid of results.

@@ -24,31 +24,31 @@ namespace Dapper
             /// </summary>
             /// <remarks>Note: each row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
             /// <param name="buffered">Whether to buffer the results.</param>
-            public Task<IEnumerable<dynamic>> ReadAsync(bool buffered = true) => ReadAsyncImpl<dynamic>(typeof(DapperRow), buffered);
+            public Task<IEnumerable<DapperRow>> ReadAsync(bool buffered = true) => ReadAsyncImpl<DapperRow>(typeof(DapperRow), buffered);
 
             /// <summary>
             /// Read an individual row of the next grid of results, returned as a dynamic object
             /// </summary>
             /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
-            public Task<dynamic> ReadFirstAsync() => ReadRowAsyncImpl<dynamic>(typeof(DapperRow), Row.First);
+            public Task<DapperRow> ReadFirstAsync() => ReadRowAsyncImpl<DapperRow>(typeof(DapperRow), Row.First);
 
             /// <summary>
             /// Read an individual row of the next grid of results, returned as a dynamic object
             /// </summary>
             /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
-            public Task<dynamic> ReadFirstOrDefaultAsync() => ReadRowAsyncImpl<dynamic>(typeof(DapperRow), Row.FirstOrDefault);
+            public Task<DapperRow> ReadFirstOrDefaultAsync() => ReadRowAsyncImpl<DapperRow>(typeof(DapperRow), Row.FirstOrDefault);
 
             /// <summary>
             /// Read an individual row of the next grid of results, returned as a dynamic object
             /// </summary>
             /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
-            public Task<dynamic> ReadSingleAsync() => ReadRowAsyncImpl<dynamic>(typeof(DapperRow), Row.Single);
+            public Task<DapperRow> ReadSingleAsync() => ReadRowAsyncImpl<DapperRow>(typeof(DapperRow), Row.Single);
 
             /// <summary>
             /// Read an individual row of the next grid of results, returned as a dynamic object
             /// </summary>
             /// <remarks>Note: the row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
-            public Task<dynamic> ReadSingleOrDefaultAsync() => ReadRowAsyncImpl<dynamic>(typeof(DapperRow), Row.SingleOrDefault);
+            public Task<DapperRow> ReadSingleOrDefaultAsync() => ReadRowAsyncImpl<DapperRow>(typeof(DapperRow), Row.SingleOrDefault);
 
             /// <summary>
             /// Read the next grid of results

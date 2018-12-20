@@ -194,7 +194,7 @@ namespace Dapper
         /// <param name="sql">The SQL to execute.</param>
         /// <param name="param">The parameters to use.</param>
         /// <remarks>Note: each row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
-        public Task<IEnumerable<dynamic>> QueryAsync(string sql, dynamic param = null) =>
+        public Task<IEnumerable<SqlMapper.DapperRow>> QueryAsync(string sql, dynamic param = null) =>
             _connection.QueryAsync(sql, param as object, _transaction);
 
         /// <summary>

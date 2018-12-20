@@ -60,9 +60,9 @@ namespace Massive
         /// <summary>
         /// Turns an IDataReader to a Dynamic list of things
         /// </summary>
-        public static List<dynamic> ToExpandoList(this IDataReader rdr)
+        public static List<DapperRow> ToExpandoList(this IDataReader rdr)
         {
-            var result = new List<dynamic>();
+            var result = new List<DapperRow>();
             while (rdr.Read())
             {
                 result.Add(rdr.RecordToExpando());
@@ -146,7 +146,7 @@ namespace Massive
         /// <summary>
         /// Enumerates the reader yielding the result - thanks to Jeroen Haegebaert
         /// </summary>
-        public virtual IEnumerable<dynamic> Query(string sql, params object[] args)
+        public virtual IEnumerable<DapperRow> Query(string sql, params object[] args)
         {
             using (var conn = OpenConnection())
             {
@@ -158,7 +158,7 @@ namespace Massive
             }
         }
 
-        public virtual IEnumerable<dynamic> Query(string sql, DbConnection connection, params object[] args)
+        public virtual IEnumerable<DapperRow> Query(string sql, DbConnection connection, params object[] args)
         {
             using (var rdr = CreateCommand(sql, connection, args).ExecuteReader())
             {
@@ -404,7 +404,7 @@ namespace Massive
         /// Returns all records complying with the passed-in WHERE clause and arguments, 
         /// ordered as specified, limited (TOP) by limit.
         /// </summary>
-        public virtual IEnumerable<dynamic> All(string where = "", string orderBy = "", int limit = 0, string columns = "*", params object[] args)
+        public virtual IEnumerable<DapperRow> All(string where = "", string orderBy = "", int limit = 0, string columns = "*", params object[] args)
         {
             string sql = limit > 0 ? "SELECT TOP " + limit + " {0} FROM {1} " : "SELECT {0} FROM {1} ";
             if (!string.IsNullOrEmpty(where))

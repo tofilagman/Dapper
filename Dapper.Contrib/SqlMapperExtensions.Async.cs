@@ -40,7 +40,7 @@ namespace Dapper.Contrib.Extensions
             if (!type.IsInterface())
                 return (await connection.QueryAsync<T>(sql, dynParms, transaction, commandTimeout).ConfigureAwait(false)).FirstOrDefault();
 
-            var res = (await connection.QueryAsync<dynamic>(sql, dynParms).ConfigureAwait(false)).FirstOrDefault() as IDictionary<string, object>;
+            var res = (await connection.QueryAsync<SqlMapper.DapperRow>(sql, dynParms).ConfigureAwait(false)).FirstOrDefault() as IDictionary<string, object>;
 
             if (res == null)
                 return null;
@@ -376,13 +376,13 @@ public partial class SqlServerAdapter
     /// <returns>The Id of the row created.</returns>
     public async Task<int> InsertAsync(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string tableName, string columnList, string parameterList, IEnumerable<PropertyInfo> keyProperties, object entityToInsert)
     {
-        var cmd = $"INSERT INTO {tableName} ({columnList}) values ({parameterList}); SELECT SCOPE_IDENTITY() id";
+        var cmd = $"INSERT INTO {tableName} ({columnList}) values ({parameterList}); SELECT SCOPE_IDENTITY() ID";
         var multi = await connection.QueryMultipleAsync(cmd, entityToInsert, transaction, commandTimeout).ConfigureAwait(false);
 
         var first = multi.Read().FirstOrDefault();
-        if (first == null || first.id == null) return 0;
+        if (first == null || first.ID == null) return 0;
 
-        var id = (int)first.id;
+        var id = (int)first.ID;
         var pi = keyProperties as PropertyInfo[] ?? keyProperties.ToArray();
         if (pi.Length == 0) return id;
 
@@ -411,10 +411,10 @@ public partial class SqlCeServerAdapter
     {
         var cmd = $"INSERT INTO {tableName} ({columnList}) VALUES ({parameterList})";
         await connection.ExecuteAsync(cmd, entityToInsert, transaction, commandTimeout).ConfigureAwait(false);
-        var r = (await connection.QueryAsync<dynamic>("SELECT @@IDENTITY id", transaction: transaction, commandTimeout: commandTimeout).ConfigureAwait(false)).ToList();
+        var r = (await connection.QueryAsync<SqlMapper.DapperRow>("SELECT @@IDENTITY ID", transaction: transaction, commandTimeout: commandTimeout).ConfigureAwait(false)).ToList();
 
-        if (r[0] == null || r[0].id == null) return 0;
-        var id = (int)r[0].id;
+        if (r[0] == null || r[0].ID == null) return 0;
+        var id = (int)r[0].ID;
 
         var pi = keyProperties as PropertyInfo[] ?? keyProperties.ToArray();
         if (pi.Length == 0) return id;
@@ -445,9 +445,9 @@ public partial class MySqlAdapter
     {
         var cmd = $"INSERT INTO {tableName} ({columnList}) VALUES ({parameterList})";
         await connection.ExecuteAsync(cmd, entityToInsert, transaction, commandTimeout).ConfigureAwait(false);
-        var r = await connection.QueryAsync<dynamic>("SELECT LAST_INSERT_ID() id", transaction: transaction, commandTimeout: commandTimeout).ConfigureAwait(false);
+        var r = await connection.QueryAsync<SqlMapper.DapperRow>("SELECT LAST_INSERT_ID() ID", transaction: transaction, commandTimeout: commandTimeout).ConfigureAwait(false);
 
-        var id = r.First().id;
+        var id = r.First().ID;
         if (id == null) return 0;
         var pi = keyProperties as PropertyInfo[] ?? keyProperties.ToArray();
         if (pi.Length == 0) return Convert.ToInt32(id);
@@ -528,10 +528,10 @@ public partial class SQLiteAdapter
     /// <returns>The Id of the row created.</returns>
     public async Task<int> InsertAsync(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string tableName, string columnList, string parameterList, IEnumerable<PropertyInfo> keyProperties, object entityToInsert)
     {
-        var cmd = $"INSERT INTO {tableName} ({columnList}) VALUES ({parameterList}); SELECT last_insert_rowid() id";
+        var cmd = $"INSERT INTO {tableName} ({columnList}) VALUES ({parameterList}); SELECT last_insert_rowid() ID";
         var multi = await connection.QueryMultipleAsync(cmd, entityToInsert, transaction, commandTimeout).ConfigureAwait(false);
 
-        var id = (int)multi.Read().First().id;
+        var id = (int)multi.Read().First().ID;
         var pi = keyProperties as PropertyInfo[] ?? keyProperties.ToArray();
         if (pi.Length == 0) return id;
 

@@ -447,7 +447,7 @@ namespace Dapper
         /// <param name="param">The parameters to use.</param>
         /// <param name="buffered">Whether the results should be buffered in memory.</param>
         /// <remarks>Note: each row can be accessed via "dynamic", or by casting to an IDictionary&lt;string,object&gt;</remarks>
-        public IEnumerable<dynamic> Query(string sql, dynamic param = null, bool buffered = true) =>
+        public IEnumerable<SqlMapper.DapperRow> Query(string sql, dynamic param = null, bool buffered = true) =>
             _connection.Query(sql, param as object, _transaction, buffered);
 
         /// <summary>

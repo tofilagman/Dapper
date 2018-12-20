@@ -277,7 +277,7 @@ namespace Dapper.Tests.Performance
 
                     var susanooDynamicPreDefinedCommand =
                         CommandManager.Instance.DefineCommand("SELECT * FROM Posts WHERE Id = @Id", CommandType.Text)
-                            .DefineResults<dynamic>()
+                            .DefineResults<DapperRow>()
                             .Realize();
 
                     tests.Add(Id =>
@@ -288,7 +288,7 @@ namespace Dapper.Tests.Performance
 
                     tests.Add(Id =>
                         CommandManager.Instance.DefineCommand("SELECT * FROM Posts WHERE Id = @Id", CommandType.Text)
-                            .DefineResults<dynamic>()
+                            .DefineResults<DapperRow>()
                             .Realize()
                             .Execute(susanooDb, new { Id }).First(), "Susanoo: Dynamic Mapping Cache Retrieval");
 

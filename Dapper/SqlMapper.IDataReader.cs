@@ -44,14 +44,14 @@ namespace Dapper
         /// Parses a data reader to a sequence of dynamic. Used for deserializing a reader without a connection, etc.
         /// </summary>
         /// <param name="reader">The data reader to parse results from.</param>
-        public static IEnumerable<dynamic> Parse(this IDataReader reader)
+        public static IEnumerable<DapperRow> Parse(this IDataReader reader)
         {
             if (reader.Read())
             {
                 var deser = GetDapperRowDeserializer(reader, 0, -1, false);
                 do
                 {
-                    yield return deser(reader);
+                    yield return deser(reader) as DapperRow;
                 } while (reader.Read());
             }
         }

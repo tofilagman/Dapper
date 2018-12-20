@@ -7,7 +7,10 @@ namespace Dapper
 {
     public static partial class SqlMapper
     {
-        private sealed class DapperRow
+        /// <summary>
+        /// 
+        /// </summary>
+        public sealed class DapperRow
             : System.Dynamic.IDynamicMetaObjectProvider
             , IDictionary<string, object>
             , IReadOnlyDictionary<string, object>
@@ -15,6 +18,11 @@ namespace Dapper
             private readonly DapperTable table;
             private object[] values;
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="table"></param>
+            /// <param name="values"></param>
             public DapperRow(DapperTable table, object[] values)
             {
                 this.table = table ?? throw new ArgumentNullException(nameof(table));
@@ -40,6 +48,12 @@ namespace Dapper
                 }
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="key"></param>
+            /// <param name="value"></param>
+            /// <returns></returns>
             public bool TryGetValue(string key, out object value)
             {
                 var index = table.IndexOfName(key);
@@ -58,6 +72,10 @@ namespace Dapper
                 return true;
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
             public override string ToString()
             {
                 var sb = GetStringBuilder().Append("{DapperRow");
@@ -84,6 +102,10 @@ namespace Dapper
                 return new DapperRowMetaObject(parameter, System.Dynamic.BindingRestrictions.Empty, this);
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
             public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
             {
                 var names = table.FieldNames;
@@ -166,6 +188,12 @@ namespace Dapper
                 set { SetValue(key, value, false); }
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="key"></param>
+            /// <param name="value"></param>
+            /// <returns></returns>
             public object SetValue(string key, object value)
             {
                 return SetValue(key, value, false);
@@ -241,6 +269,75 @@ namespace Dapper
             IEnumerable<object> IReadOnlyDictionary<string, object>.Values
             {
                 get { return this.Select(kv => kv.Value); }
+            }
+
+            /// <summary>
+            /// Primary Key
+            /// </summary>
+            public object ID
+            {
+                get
+                {
+                    TryGetValue("ID", out object id);
+                    return id;
+                }
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="Key"></param>
+            /// <returns></returns>
+            public object this[string Key]
+            {
+                get
+                {
+                    TryGetValue(Key, out object id);
+                    return id;
+                }
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="Key"></param>
+            /// <param name="alternateValue"></param>
+            /// <returns></returns>
+            public object this[string Key, object alternateValue]
+            {
+                get
+                {
+                    if (!TryGetValue(Key, out object id))
+                        return id ?? alternateValue;
+                    return id;
+                }
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="index"></param>
+            /// <returns></returns>
+            public object this[int index]
+            {
+                get
+                {
+                    return this.ElementAt(index).Value;
+                }
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="index"></param>
+            /// <param name="alternateValue"></param>
+            /// <returns></returns>
+            public object this[int index, object alternateValue]
+            {
+                get
+                {
+                    return this.ElementAt(index).Value ?? alternateValue;
+                }
             }
 
             #endregion
