@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using z.Data;
 
 namespace Dapper
 {
@@ -12,8 +13,10 @@ namespace Dapper
         /// </summary>
         public sealed class DapperRow
             : System.Dynamic.IDynamicMetaObjectProvider
-            , IDictionary<string, object>
+            , IPair// IDictionary<string, object>
             , IReadOnlyDictionary<string, object>
+            , IDisposable
+
         {
             private readonly DapperTable table;
             private object[] values;
@@ -35,6 +38,9 @@ namespace Dapper
                 private DeadValue() { /* hiding constructor */ }
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
             int ICollection<KeyValuePair<string, object>>.Count
             {
                 get
@@ -169,6 +175,39 @@ namespace Dapper
                 return true;
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="key"></param>
+            /// <param name="value"></param>
+            /// <returns></returns>
+            public IPair Add(string key, object value)
+            {
+                SetValue(key, value, true);
+                return this;
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <typeparam name="T"></typeparam>
+            /// <typeparam name="TValue"></typeparam>
+            /// <param name="data"></param>
+            /// <param name="key"></param>
+            /// <param name="value"></param>
+            public void Add<T, TValue>(IEnumerable<T> data, Func<T, string> key, Func<T, TValue> value)
+            {
+                foreach (T g in data)
+                {
+                    SetValue(key(g), value(g));
+                }
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="key"></param>
+            /// <param name="value"></param>
             void IDictionary<string, object>.Add(string key, object value)
             {
                 SetValue(key, value, true);
@@ -238,9 +277,7 @@ namespace Dapper
 
             #endregion
 
-
             #region Implementation of IReadOnlyDictionary<string,object>
-
 
             int IReadOnlyCollection<KeyValuePair<string, object>>.Count
             {
@@ -295,6 +332,10 @@ namespace Dapper
                     TryGetValue(Key, out object id);
                     return id;
                 }
+                set
+                {
+                    SetValue(Key, value);
+                }
             }
 
             /// <summary>
@@ -310,6 +351,10 @@ namespace Dapper
                     if (!TryGetValue(Key, out object id))
                         return id ?? alternateValue;
                     return id;
+                }
+                set
+                {
+                    SetValue(Key, value);
                 }
             }
 
@@ -338,6 +383,25 @@ namespace Dapper
                 {
                     return this.ElementAt(index).Value ?? alternateValue;
                 }
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
+            public IPair IgnoreCase()
+            {
+                throw new InvalidOperationException();
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public void Dispose()
+            {
+                values = null;
+                GC.Collect();
+                GC.SuppressFinalize(this);
             }
 
             #endregion
