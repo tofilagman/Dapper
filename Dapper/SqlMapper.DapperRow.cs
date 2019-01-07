@@ -188,6 +188,21 @@ namespace Dapper
             }
 
             /// <summary>
+            /// Add Or Update an object
+            /// </summary>
+            /// <param name="Key"></param>
+            /// <param name="Value"></param>
+            /// <returns></returns>
+            public IPair AddOrUpdate(string Key, object Value)
+            {
+                if (this.ContainsKey(Key))
+                    SetValue(Key, Value, false);
+                else
+                    SetValue(Key, Value, true);
+                return this;
+            }
+
+            /// <summary>
             /// 
             /// </summary>
             /// <typeparam name="T"></typeparam>
