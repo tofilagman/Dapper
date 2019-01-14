@@ -2846,18 +2846,22 @@ namespace Dapper
             }
 
             IDbCommand cmd = null;
-            bool wasClosed = cnn.State == ConnectionState.Closed;
+            //bool wasClosed = cnn.State == ConnectionState.Closed;
             object result;
             try
             {
                 cmd = command.SetupCommand(cnn, paramReader);
-                if (wasClosed) cnn.Open();
+                //if (wasClosed) cnn.Open();
+                while (cnn.State != ConnectionState.Open)
+                    cnn.Open();
+
                 result = cmd.ExecuteScalar();
                 command.OnCompleted();
             }
             finally
             {
-                if (wasClosed) cnn.Close();
+                //if (wasClosed)
+                cnn.Close();
                 cmd?.Dispose();
             }
             return Parse<T>(result);
